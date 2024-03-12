@@ -48,12 +48,14 @@ public class TraineeService {
         return true;
     }
     
-    public void deactivate(TraineeEntity traineeEntity) throws AuthenticationException {
+    public void toggle(TraineeEntity traineeEntity) throws AuthenticationException {
         if (traineeEntity == null) throw new IllegalArgumentException("Argument trainee must not be null!");
         if (!authenticate(traineeEntity.getUserEntity().getUsername(), traineeEntity.getUserEntity().getPassword())) throw new AuthenticationException("Wrong credentials");
-        traineeEntity.getUserEntity().setActive(false);
-        traineeRepository.save(traineeEntity);
-        log.info("Trainee with id " + traineeEntity.getTraineeId() + " and username " + traineeEntity.getUserEntity().getUsername() + " has been deactivated");
+        TraineeEntity traineeEntity1 = selectTrainee(traineeEntity.getUserEntity().getUsername());
+        boolean isActive = traineeEntity1.getUserEntity().isActive();
+        traineeEntity1.getUserEntity().setActive(!isActive);
+        traineeRepository.save(traineeEntity1);
+        log.info("Trainee with id " + traineeEntity1.getTraineeId() + " and username " + traineeEntity1.getUserEntity().getUsername() + " has been deactivated");
     }
 
     public TraineeEntity createTrainee(TraineeEntity traineeEntity) {

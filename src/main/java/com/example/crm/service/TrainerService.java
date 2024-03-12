@@ -46,12 +46,14 @@ public class TrainerService {
         log.info("Trainer with id " + trainerEntity.getTrainerId() + " and username " + trainerEntity.getUserEntity().getUsername() + " has changed password");
     }
 
-    public void deactivate(TrainerEntity trainerEntity) throws AuthenticationException {
+    public void toggle(TrainerEntity trainerEntity) throws AuthenticationException {
         if (trainerEntity == null) throw new IllegalArgumentException("Argument trainer must not be null!");
         if (!authenticate(trainerEntity.getUserEntity().getUsername(), trainerEntity.getUserEntity().getPassword())) throw new AuthenticationException("Wrong credentials");
-        trainerEntity.getUserEntity().setActive(false);
-        trainerRepository.save(trainerEntity);
-        log.info("Trainer with id " + trainerEntity.getTrainerId() + " and username " + trainerEntity.getUserEntity().getUsername() + " has been deactivated");
+        TrainerEntity trainerEntity1 = selectTrainer(trainerEntity.getUserEntity().getUsername());
+        boolean isActive = trainerEntity1.getUserEntity().isActive();
+        trainerEntity1.getUserEntity().setActive(!isActive);
+        trainerRepository.save(trainerEntity1);
+        log.info("Trainer with id " + trainerEntity1.getTrainerId() + " and username " + trainerEntity1.getUserEntity().getUsername() + " has been deactivated");
     }
 
     public TrainerEntity createTrainer(TrainerEntity trainerEntity) {

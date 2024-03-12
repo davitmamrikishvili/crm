@@ -69,5 +69,15 @@ public class TrainerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PatchMapping(path = "/trainers")
+    public ResponseEntity<TrainerDto> toggle(@RequestBody TrainerDto trainerDto) {
+        TrainerEntity trainerEntity = trainerMapper.mapFrom(trainerDto);
+        try {
+            trainerService.toggle(trainerEntity);
+        } catch (AuthenticationException e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
 

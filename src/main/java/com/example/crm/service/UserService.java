@@ -29,5 +29,6 @@ public class UserService {
     }
 
     public void deleteByUsername(String username) {
+        userRepository.deleteByUsername(username);
     }
 }

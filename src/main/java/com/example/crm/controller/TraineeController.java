@@ -74,4 +74,15 @@ public class TraineeController {
         traineeService.deleteTrainee(username);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PatchMapping(path = "/trainees")
+    public ResponseEntity<TraineeDto> toggle(@RequestBody TraineeDto traineeDto) {
+        TraineeEntity traineeEntity = traineeMapper.mapFrom(traineeDto);
+        try {
+            traineeService.toggle(traineeEntity);
+        } catch (AuthenticationException e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

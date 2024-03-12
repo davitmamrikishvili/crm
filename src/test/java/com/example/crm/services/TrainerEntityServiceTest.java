@@ -79,7 +79,7 @@ public class TrainerEntityServiceTest {
     @Test
     public void deactivate_deactivatesTrainer() throws AuthenticationException {
         when(trainerRepository.findByUserEntityUsername(userEntity.getUsername())).thenReturn(Optional.of(trainerEntity));
-        trainerService.deactivate(trainerEntity);
+        trainerService.toggle(trainerEntity);
         assertFalse(trainerEntity.getUserEntity().isActive());
     }
 

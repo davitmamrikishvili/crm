@@ -79,7 +79,7 @@ public class TraineeEntityServiceTest {
     @Test
     public void deactivate_deactivatesTrainee() throws AuthenticationException {
         when(traineeRepository.findByUserEntityUsername(userEntity.getUsername())).thenReturn(Optional.of(traineeEntity));
-        traineeService.deactivate(traineeEntity);
+        traineeService.toggle(traineeEntity);
         assertFalse(traineeEntity.getUserEntity().isActive());
     }
 
