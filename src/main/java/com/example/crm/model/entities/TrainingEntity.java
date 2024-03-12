@@ -1,11 +1,10 @@
-package com.example.crm.model;
+package com.example.crm.model.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Duration;
 import java.time.LocalDate;
 
 @Data
@@ -13,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "TRAINING")
-public class Training {
+public class TrainingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,18 +20,18 @@ public class Training {
 
     @ManyToOne
     @JoinColumn(name = "trainee_id")
-    private Trainee trainee;
+    private TraineeEntity traineeEntity;
 
     @ManyToOne
     @JoinColumn(name = "trainer_id")
-    private Trainer trainer;
+    private TrainerEntity trainerEntity;
 
     @Column(nullable = false)
     private String trainingName;
 
     @ManyToOne
     @JoinColumn(name = "type_id")
-    private TrainingType type;
+    private TrainingTypeEntity type;
 
     @Column(nullable = false)
     private LocalDate date;

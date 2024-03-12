@@ -1,4 +1,4 @@
-package com.example.crm.model;
+package com.example.crm.model.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "TRAINER")
-public class Trainer {
+public class TrainerEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +20,7 @@ public class Trainer {
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity userEntity;
 
     private String specialization;
 
@@ -30,9 +30,9 @@ public class Trainer {
             joinColumns = @JoinColumn(name = "trainer_id"),
             inverseJoinColumns = @JoinColumn(name = "trainee_id")
     )
-    private Set<Trainee> trainees;
+    private Set<TraineeEntity> traineeEntities;
 
-    public Trainer() {
+    public TrainerEntity() {
     }
 
 }

@@ -1,9 +1,9 @@
 package com.example.crm.service;
 
-import com.example.crm.model.Trainee;
-import com.example.crm.model.Trainer;
-import com.example.crm.model.Training;
-import com.example.crm.model.TrainingType;
+import com.example.crm.model.entities.TraineeEntity;
+import com.example.crm.model.entities.TrainerEntity;
+import com.example.crm.model.entities.TrainingEntity;
+import com.example.crm.model.entities.TrainingTypeEntity;
 import com.example.crm.repositories.TrainingRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.*;
@@ -28,19 +28,19 @@ public class TrainingService {
         this.entityManager = entityManager;
     }
 
-    public void createTraining(Training training) {
-        if (training == null) throw new IllegalArgumentException("Argument training must not be null!");
-        trainingRepository.save(training);
-        log.info("Training with id " + training.getTrainingId() + " has been created");
+    public void createTraining(TrainingEntity trainingEntity) {
+        if (trainingEntity == null) throw new IllegalArgumentException("Argument training must not be null!");
+        trainingRepository.save(trainingEntity);
+        log.info("Training with id " + trainingEntity.getTrainingId() + " has been created");
     }
 
-    public List<Training> getTraineeTrainingList(String traineeUsername, LocalDate fromDate, LocalDate toDate, String trainerName, String trainingTypeName) {
+    public List<TrainingEntity> getTraineeTrainingList(String traineeUsername, LocalDate fromDate, LocalDate toDate, String trainerName, String trainingTypeName) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Training> query = cb.createQuery(Training.class);
-        Root<Training> trainingRoot = query.from(Training.class);
-        Join<Training, Trainee> traineeJoin = trainingRoot.join("trainee");
-        Join<Training, Trainer> trainerJoin = trainingRoot.join("trainer");
-        Join<Training, TrainingType> typeJoin = trainingRoot.join("type");
+        CriteriaQuery<TrainingEntity> query = cb.createQuery(TrainingEntity.class);
+        Root<TrainingEntity> trainingRoot = query.from(TrainingEntity.class);
+        Join<TrainingEntity, TraineeEntity> traineeJoin = trainingRoot.join("trainee");
+        Join<TrainingEntity, TrainerEntity> trainerJoin = trainingRoot.join("trainer");
+        Join<TrainingEntity, TrainingTypeEntity> typeJoin = trainingRoot.join("type");
 
         List<Predicate> predicates = helper(traineeUsername, fromDate, toDate, trainerName, cb, trainingRoot, traineeJoin.get("user"), trainerJoin.get("user"));
         if (trainingTypeName != null && !trainingTypeName.isEmpty()) {
@@ -52,12 +52,12 @@ public class TrainingService {
         return entityManager.createQuery(query).getResultList();
     }
 
-    public List<Training> getTrainerTrainingList(String trainerUsername, LocalDate fromDate, LocalDate toDate, String traineeName) {
+    public List<TrainingEntity> getTrainerTrainingList(String trainerUsername, LocalDate fromDate, LocalDate toDate, String traineeName) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Training> query = cb.createQuery(Training.class);
-        Root<Training> trainingRoot = query.from(Training.class);
-        Join<Training, Trainer> trainerJoin = trainingRoot.join("trainer");
-        Join<Training, Trainee> traineeJoin = trainingRoot.join("trainee");
+        CriteriaQuery<TrainingEntity> query = cb.createQuery(TrainingEntity.class);
+        Root<TrainingEntity> trainingRoot = query.from(TrainingEntity.class);
+        Join<TrainingEntity, TrainerEntity> trainerJoin = trainingRoot.join("trainer");
+        Join<TrainingEntity, TraineeEntity> traineeJoin = trainingRoot.join("trainee");
 
         List<Predicate> predicates = helper(trainerUsername, fromDate, toDate, traineeName, cb, trainingRoot, trainerJoin.get("user"), traineeJoin.get("user"));
 
@@ -67,7 +67,7 @@ public class TrainingService {
         return entityManager.createQuery(query).getResultList();
     }
 
-    private List<Predicate> helper(String trainerUsername, LocalDate fromDate, LocalDate toDate, String traineeName, CriteriaBuilder cb, Root<Training> trainingRoot, Path<Object> user, Path<Object> user2) {
+    private List<Predicate> helper(String trainerUsername, LocalDate fromDate, LocalDate toDate, String traineeName, CriteriaBuilder cb, Root<TrainingEntity> trainingRoot, Path<Object> user, Path<Object> user2) {
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(cb.equal(user.get("username"), trainerUsername));
 

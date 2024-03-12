@@ -1,4 +1,4 @@
-package com.example.crm.model;
+package com.example.crm.model.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "TRAINING_TYPE")
-public class TrainingType {
+public class TrainingTypeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

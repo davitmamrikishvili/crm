@@ -1,4 +1,4 @@
-package com.example.crm.model;
+package com.example.crm.model.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "TRAINEE")
-public class Trainee {
+public class TraineeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,16 +21,16 @@ public class Trainee {
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity userEntity;
 
     private String address;
 
     private LocalDate dob;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "trainees")
-    private Set<Trainer> trainers;
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "traineeEntities")
+    private Set<TrainerEntity> trainerEntities;
 
-    public Trainee() {
+    public TraineeEntity() {
     }
 
 }

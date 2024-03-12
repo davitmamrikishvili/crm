@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class TrainingServiceTest {
+public class TrainingEntityServiceTest {
 
     @Mock
     private TrainingRepository trainingRepository;

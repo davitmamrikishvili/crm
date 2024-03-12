@@ -1,4 +1,4 @@
-package com.example.crm.model;
+package com.example.crm.model.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 @NoArgsConstructor
 @Entity
 @Table(name = "USER")
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,13 +34,13 @@ public class User {
     @Column(nullable = false)
     private boolean isActive;
 
-    public static class UserBuilder {
+    public static class UserEntityBuilder {
 
-        public UserBuilder username() {
+        public UserEntityBuilder username() {
             return this;
         }
 
-        public UserBuilder password() {
+        public UserEntityBuilder password() {
             this.password = RandomStringUtils.random(10, true, true);
             return this;
         }
